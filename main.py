@@ -1,5 +1,6 @@
 import webbrowser
 import requests
+import sqlite3
 import sys
 import os
 from bs4 import BeautifulSoup
@@ -33,19 +34,21 @@ if __name__ == "__main__":
     html = urlopen(url).read().decode()
     soup = BeautifulSoup(html, features='lxml')
     abbr = soup.find_all("div", {"class": "course"})
-    # print(abbr)
-    # for i in abbr:
-    #     print(i)
-    # item = abbr[7]
-    # print(type(abbr))
     c = str(abbr)
     print(type(c))
     print(c)
     tickerList = []
     a = 'href="comp" href="nsms"'
-    index= a.find('href')
-    print(a.find('href'))
+    # index= a.find('href')
+    # print(a.find('href'))
     findCourseTicker(c)
     # print(tickerList)
     removeSlash(tickerList)
-    print(tickerList)
+    # print(tickerList)
+    
+    conn = sqlite3.connect('test.db')
+    cursor = conn.cursor()
+    for item in tickerList:
+        cursor.execute("Insert into course(name) Values(?)",[item])
+    conn.commit()
+    conn.close()
