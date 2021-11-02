@@ -30,7 +30,8 @@ def remove_chr(items):
         lis.append(item.replace('\n', "").replace('\r', "").replace('\t', ""))
     return lis
 
-def getMax():
+
+def get_max():
     #This function is unnecessary if you know the max page though
     max = 400
     url = 'https://apps.cra-arc.gc.ca/ebci/hacc/cews/srch/pub/fllLstSrh?dsrdPg=400&q.ordrClmn=NAME&q.ordrRnk=ASC'
@@ -46,7 +47,7 @@ def getMax():
       txt=r.text
       if(txt.find("We found no match for the search criteria you used.") > 0):
         max = max-1
-        break;
+        break
     return max
 
 
@@ -84,7 +85,7 @@ if __name__ == "__main__":
     url = 'https://apps.cra-arc.gc.ca/ebci/hacc/cews/srch/pub/bscSrch?dsrdPg=1&q.srchNm=car&q.ordrClmn=NAME&q.ordrRnk=ASC'
     create_csv()
     # page_range()
-    max = getMax()
+    max = get_max()
     print("Max Page:"+str(max))
     for i in range(max):
         print(i)
@@ -92,5 +93,6 @@ if __name__ == "__main__":
 
     end = time.time()
     print("end time:" + str(end - start))
-    #end time:12.6405189037323
-    # 1- 100 end time:55.16016626358032
+
+    #end time:303.1514730453491
+    # 1- 410 end time:303.16016626358032
