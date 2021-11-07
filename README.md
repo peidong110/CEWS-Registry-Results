@@ -1,4 +1,4 @@
-# animated-waffle-available-slot-tracker
+# CEWS-Registry-Results
 
 Updated:
 ## 409,604 entries over 312.3491418361664 seconds
