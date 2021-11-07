@@ -12,6 +12,8 @@ Updated:
 
 
 ## Multi-Thread:
+I used Producer and Consumer pattern to make this multi-thread web crawler work. Time consumption is signaficantly reduce by around 2/3. Producer produced all the html files, once this producer thread completed its work, then consumer thread will then pick up the files and parse it to data we really want.
+
 ### Time:
 ![multi_thread1](https://i.ibb.co/wRs3gnj/multi-thread1.png)
 ### Data from CRA
