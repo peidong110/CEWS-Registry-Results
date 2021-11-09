@@ -1,7 +1,7 @@
 # CEWS-Registry-Results
 
 Updated:
-## 409,604 entries over 312.3491418361664 seconds
+## 409,733 entries over 280 seconds for main.py and around 100s for multi_thread
 
 
 ### Crawled Data
