@@ -9,7 +9,7 @@ import requests
 
 
 def create_csv():
-    path = "file.csv"
+    path = "file1.csv"
     with open(path, 'w', newline='') as file:
         csv_write = csv.writer(file)
         csv_head = ['Business Name', 'Operating Name']
@@ -17,7 +17,7 @@ def create_csv():
 
 
 def write_csv(business: list, operating: list):
-    path = "file.csv"
+    path = "file1.csv"
     with open(path, 'a+', newline='') as f:
         csv_write = csv.writer(f)
         for i in range(len(business)):
@@ -60,13 +60,13 @@ def crawl(url_queue: queue.Queue, parsed_html_queue: queue.Queue):
         soup = BeautifulSoup(html, features='lxml')
         new_address = soup.find_all("div", class_="mrgn-tp-sm")
         parsed_html_queue.put(new_address)
-        # print("CRAWLING... in progress")
-        print("Current PARSED HTML SIZE:" + str(parsed_html_queue.qsize()))
+        print("Fetching: " + str(parsed_html_queue.qsize()))
     print("END")
 
 
 def parsed(parsed_html: queue.Queue):
     while not parsed_html.empty():
+        print("Current PARSED HTML SIZE:" + str(parsed_html.qsize()))
         html = parsed_html.get()
         business_name = []
         operating_name = []
@@ -81,7 +81,6 @@ def parsed(parsed_html: queue.Queue):
                 flag = not flag
         new_operating_name = remove_chr(operating_name)
         new_business_name = remove_chr(business_name)
-        # print(new_operating_name)
         write_csv(new_operating_name, new_business_name)
 
 
@@ -113,16 +112,7 @@ if __name__ == "__main__":
 
     for item in thread_list:
         item.join()
+    parsed(html_q)
+    end_time = time.time()
 
-    for thread in range(4):
-        print(f"parse{thread}")
-        thread = threading.Thread(target=parsed, args=(html_q,), name=f"parse in Thread{thread}")
-        thread.start()
-        thread_list1.append(thread)
-
-    for item in thread_list1:
-        item.join()
-
-    end = time.time()
-    print("END TIME:" + str(end - start))
-
+    print("END TIME:" + str(end_time - start))
