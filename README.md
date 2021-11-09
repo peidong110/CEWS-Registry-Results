@@ -1,7 +1,7 @@
 # CEWS-Registry-Results
 
 Updated:
-## 409,733 entries over 280 seconds for main.py and around 100s for multi_thread
+## 409,733 entries over 280 seconds for main.py and around 100s for multi_thread_main.py
 
 
 ### Crawled Data
@@ -19,7 +19,8 @@ I used Producer and Consumer pattern to make this multi-thread web crawler work.
 ### Data from CRA
 ![multi_thread2](https://i.ibb.co/W2cPhqS/multi-thread2.png)
 
-### to-do
-Some potential entries are lost (~5000)
-Something probably went wrong with my multi-thread design.
-:upside_down_face:
+###
+Decided not to use multi-thread when parsing html files, instead we write files to csv synchronously.
+
+#### to-do
+Order of entries is different.
