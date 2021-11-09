@@ -4,6 +4,9 @@ Updated:
 ## 409,733 entries over 280 seconds for main.py and around 100s for multi_thread_main.py
 
 
+### Reminder
+If you already know the maximum page(It's 410 right now), then just assign it to max and do not call get_max(), calling get_max() will potentially slow down the program. Same for insert_data() and create_table. They are used to create a database file, if you databsae support importing csv file directly, you can just comment that line out.
+
 ### Crawled Data
 ![crawledEntries](https://i.ibb.co/j8xqPff/csvfile.png)
 ### Data from CRA
