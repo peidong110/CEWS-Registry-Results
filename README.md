@@ -18,6 +18,8 @@ I used Producer and Consumer pattern to make this multi-thread web crawler work.
 ![multi_thread1](https://i.ibb.co/wRs3gnj/multi-thread1.png)
 ### Data from CRA
 ![multi_thread2](https://i.ibb.co/W2cPhqS/multi-thread2.png)
+### Database Screenshot
+![db_count](https://i.ibb.co/6sY4B07/count.png)
 
 ###
 Decided not to use multi-thread when parsing html files, instead we write files to csv synchronously.
