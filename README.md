@@ -28,3 +28,4 @@ Decided not to use multi-thread when parsing html files, instead we write files 
 
 #### to-do
 Order of entries is different.
+Improve code reusability 
