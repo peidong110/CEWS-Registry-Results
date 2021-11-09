@@ -83,7 +83,7 @@ def parsed(parsed_html: queue.Queue):
         new_operating_name = remove_chr(operating_name)
         new_business_name = remove_chr(business_name)
         write_csv(new_operating_name, new_business_name)
-        # insert_data(new_operating_name, new_business_name)
+        insert_data(new_operating_name, new_business_name)
 
 
 def insert_data(business, operating):
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     start = time.time()
     create_csv()
     # # page_range()
-    max_page = 10
+    max_page = 410
     start = time.time()
     # sql = ''' INSERT INTO REGISTRY(BUSINESS_NAME,OPERATING_NAME)
     #           VALUES('V1','32') '''
@@ -121,7 +121,6 @@ if __name__ == "__main__":
     # cursor.execute('''CREATE TABLE IF NOT EXISTS REGISTRY
     #               (id INTEGER, BUSINESS_NAME TEXT, OPERATING_NAME TEXT)''')
     connection.commit()
-
 
     urls = [
         f"https://apps.cra-arc.gc.ca/ebci/hacc/cews/srch/pub/fllLstSrh?dsrdPg={page}&q.ordrClmn=NAME&q.ordrRnk=ASC"
@@ -150,3 +149,5 @@ if __name__ == "__main__":
     print("END TIME:" + str(end_time - start))
     connection.close()
 
+    # END TIME:95.73481583595276 without inserting entries to DB
+    # END TIME:723.0858728885651 inserting entries to DB.
