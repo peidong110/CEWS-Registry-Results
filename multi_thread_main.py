@@ -83,28 +83,28 @@ def parsed(parsed_html: queue.Queue):
         new_operating_name = remove_chr(operating_name)
         new_business_name = remove_chr(business_name)
         write_csv(new_operating_name, new_business_name)
-        insert_data(new_operating_name, new_business_name)
+        # insert_data(new_operating_name, new_business_name)
 
 
 def insert_data(business, operating):
     for i in range(len(business)):
         new_business = business[i].replace("'", "''")
         new_operating = operating[i].replace("'", "''")
-        sql_insert(new_business, new_operating)
+        # sql_insert(new_business, new_operating)
 
+# Remove the comments below if you want to writing entries to DB file.
+# def create_table():
+#     cursor.execute('''CREATE TABLE IF NOT EXISTS REGISTRY
+#                   (ID integer primary key autoincrement, BUSINESS_NAME text, OPERATING_NAME TEXT)''')
+#     connection.commit()
 
-def create_table():
-    cursor.execute('''CREATE TABLE IF NOT EXISTS REGISTRY 
-                  (ID integer primary key autoincrement, BUSINESS_NAME text, OPERATING_NAME TEXT)''')
-    connection.commit()
-
-
-def sql_insert(business_name, operating_name):
-    sql_insert_statement = f"INSERT INTO REGISTRY(BUSINESS_NAME,OPERATING_NAME) VALUES ('{business_name}','{operating_name}') "
-    # print(sql_insert_statement)
-    cursor.execute(sql_insert_statement)
-    # cursor.execute(f"INSERT INTO REGISTRY(BUSINESS_NAME,OPERATING_NAME) VALUES {business_name},{operating_name}")
-    connection.commit()
+# Remove the comments below if you want to writing entries to DB file.
+# def sql_insert(business_name, operating_name):
+#     sql_insert_statement = f"INSERT INTO REGISTRY(BUSINESS_NAME,OPERATING_NAME) VALUES ('{business_name}','{operating_name}') "
+#     # print(sql_insert_statement)
+#     cursor.execute(sql_insert_statement)
+#     # cursor.execute(f"INSERT INTO REGISTRY(BUSINESS_NAME,OPERATING_NAME) VALUES {business_name},{operating_name}")
+#     connection.commit()
 
 
 if __name__ == "__main__":
@@ -113,14 +113,14 @@ if __name__ == "__main__":
     # # page_range()
     max_page = 410
     start = time.time()
-    # sql = ''' INSERT INTO REGISTRY(BUSINESS_NAME,OPERATING_NAME)
-    #           VALUES('V1','32') '''
-    connection = sqlite3.connect('file.db')
-    cursor = connection.cursor()
-    create_table()
+
+    # Remove the comments below if you want to writing entries to DB file.
+    # connection = sqlite3.connect('file.db')
+    # cursor = connection.cursor()
+    # create_table()
     # cursor.execute('''CREATE TABLE IF NOT EXISTS REGISTRY
     #               (id INTEGER, BUSINESS_NAME TEXT, OPERATING_NAME TEXT)''')
-    connection.commit()
+    # connection.commit()
 
     urls = [
         f"https://apps.cra-arc.gc.ca/ebci/hacc/cews/srch/pub/fllLstSrh?dsrdPg={page}&q.ordrClmn=NAME&q.ordrRnk=ASC"
@@ -147,7 +147,8 @@ if __name__ == "__main__":
     end_time = time.time()
 
     print("END TIME:" + str(end_time - start))
-    connection.close()
+    # Remove the comments below if you want to writing entries to DB file.
+    # connection.close()
 
     # END TIME:95.73481583595276 without inserting entries to DB
     # END TIME:723.0858728885651 inserting entries to DB.
