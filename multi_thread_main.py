@@ -26,32 +26,24 @@ def write_csv(business: list, operating: list):
             csv_write.writerow(data_row)
 
 
-def remove_chr(items):
-    lis = []
-    for x in items:
-        lis.append(x.replace('\n', "").replace('\r', "").replace('\t', ""))
-    return lis
-
-
 def get_max():
-    # This function is unnecessary if you know the max page though
-    max_pg = 400
-    url = 'https://apps.cra-arc.gc.ca/ebci/hacc/cews/srch/pub/fllLstSrh?dsrdPg=400&q.ordrClmn=NAME&q.ordrRnk=ASC'
+    # This function is unnecessary to call if you already know the max page though
+    max_page_num = 410
+    url = f"https://apps.cra-arc.gc.ca/ebci/hacc/cews/srch/pub/fllLstSrh?dsrdPg={max_page_num}&q.ordrClmn=NAME&q.ordrRnk=ASC"
     r = requests.get(url)
     txt = r.text
 
     # f = open('file.html', 'x', encoding='utf-8')
     while txt.find("We found no match for the search criteria you used.") < 0:
-        max_pg += 1
-        url = 'https://apps.cra-arc.gc.ca/ebci/hacc/cews/srch/pub/fllLstSrh?dsrdPg=' + str(
-            max) + '&q.ordrClmn=NAME&q.ordrRnk=ASC'
-
+        print("Max: "+str(max_page_num))
+        max_page_num += 1
+        url = f"https://apps.cra-arc.gc.ca/ebci/hacc/cews/srch/pub/fllLstSrh?dsrdPg={max_page_num}&q.ordrClmn=NAME&q.ordrRnk=ASC"
         r = requests.get(url)
         txt = r.text
         if txt.find("We found no match for the search criteria you used.") > 0:
-            max_pg = max - 1
+            max_page_num = max_page_num - 1
             break
-    return max
+    return max_page_num
 
 
 def crawl(url_queue: queue.Queue, parsed_html_queue: queue.Queue):
@@ -75,14 +67,13 @@ def parsed(parsed_html: queue.Queue):
         for x in html:
             text = x.get_text()
             if flag:
-                business_name.append(text)
+                business_name.append(text.replace("\t", "").replace("\n", "").replace("\r", ""))
+                # business_name.append(text)
                 flag = not flag
             else:
-                operating_name.append(text)
+                operating_name.append(text.replace("\t", "").replace("\n", "").replace("\r", ""))
                 flag = not flag
-        new_operating_name = remove_chr(operating_name)
-        new_business_name = remove_chr(business_name)
-        write_csv(new_operating_name, new_business_name)
+        write_csv(business_name, operating_name)
         # insert_data(new_operating_name, new_business_name)
 
 
@@ -91,6 +82,7 @@ def insert_data(business, operating):
         new_business = business[i].replace("'", "''")
         new_operating = operating[i].replace("'", "''")
         # sql_insert(new_business, new_operating)
+
 
 # Remove the comments below if you want to writing entries to DB file.
 # def create_table():
@@ -110,8 +102,11 @@ def insert_data(business, operating):
 if __name__ == "__main__":
     start = time.time()
     create_csv()
-    # # page_range()
-    max_page = 410
+    # Max PAGE, call get_max() when you want to fetch the latest max # on the internet, eg max_page = get_max()
+    max = get_max()
+    print(f"MAX PAGE: {max}")
+    max_page = max
+
     start = time.time()
 
     # Remove the comments below if you want to writing entries to DB file.
@@ -122,17 +117,18 @@ if __name__ == "__main__":
     #               (id INTEGER, BUSINESS_NAME TEXT, OPERATING_NAME TEXT)''')
     # connection.commit()
 
+    # This will generates url from 1 to max, now it's 411. It will be added to url_queue, and it will be used in def crawl().
     urls = [
         f"https://apps.cra-arc.gc.ca/ebci/hacc/cews/srch/pub/fllLstSrh?dsrdPg={page}&q.ordrClmn=NAME&q.ordrRnk=ASC"
         for page in range(1, max_page + 1)
     ]
 
-    url_q = queue.Queue(maxsize=max_page)  # 410
+    url_q = queue.Queue(maxsize=max_page)  # 411
     html_q = queue.Queue(maxsize=max_page)
 
     for item in range(max_page):
         url_q.put(urls[item])
-
+    # Multi-thread
     thread_list = []
     for thread in range(5):
         print(f"crawl in Thread {thread}")
