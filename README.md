@@ -2,7 +2,13 @@
 
 Updated:
 ## 409,733 entries over 280 seconds for main.py and around 100s for multi_thread_main.py
-
+## How to run it?
+Install
+1. BeautifulSoup4
+2. lxml
+3. Urllib3
+4. Requests
+5. python3 xxx.py
 
 ### Reminder
 If you already know the maximum page(It's 410 right now), then just assign it to max and do not call [get_max()](https://github.com/peidong110/CEWS-Registry-Results/blob/ff6368af88d64594df88d81c51d7de206a92b505/multi_thread_main.py#L114), calling get_max() will potentially slow down the program. This also applies for [inser_data()](https://github.com/peidong110/CEWS-Registry-Results/blob/ff6368af88d64594df88d81c51d7de206a92b505/multi_thread_main.py#L86) and create_table. They are used to create a database file, if you databsae can import csv file directly, then you can just comment the out.
